@@ -1,8 +1,8 @@
 // Estilos para el encabezado
 ion-header {
     ion-toolbar {
-    background-color: #1e1e1e;
-    color: #ffffff;
+    background-color: #008082;
+    color: #bf1717;
 
     ion-title {
         font-weight: bold;
@@ -11,13 +11,13 @@ ion-header {
     }
 
     ion-back-button {
-        color: #ffffff;
+        color: #bf1717;
     }
     }
 }
   // Estilos para el contenido
 ion-content {
-    background-color: #121212;
+    background-color: #bf1717;
 
     .ion-padding {
     display: flex;
@@ -37,7 +37,7 @@ ion-content {
     ion-list {
     width: 100%;
     max-width: 400px;
-    background: #2a2a2a;
+    background: #5d1b1b;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
     overflow: hidden;
@@ -62,7 +62,7 @@ ion-content {
         h2 {
         font-size: 1rem;
         font-weight: bold;
-        color: #ffffff;
+        color: #bf1717;
         }
 
         p {
