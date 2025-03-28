@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Países del Mundo</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="updateSearch()"
+      placeholder="Buscar país...">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @if (countryService.countries().length === 0) {
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">Cargando países...</ion-label>
+      </ion-item>
+    } @else {
+      @for (country of countryService.countries(); track country.cca3) {
+        <ion-item button [routerLink]="['/detail', country.cca3]">
+          <ion-avatar slot="start">
+            <img [src]="country.flags.png" [alt]="country.name.common">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ country.name.common }}</h2>
+            <p>{{ country.capital?.[0] || 'Sin capital' }}</p>
+          </ion-label>
+        </ion-item>
+      }
+    }
+  </ion-list>
+</ion-content>

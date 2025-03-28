@@ -1,44 +1,36 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CountryService {
-  // Definimos tipos directamente aquí
-  private _countries = signal<{
-    name: { common: string; official: string };
-    flags: { png: string; svg: string };
-    capital: string[];
-    population: number;
-    region: string;
-    // ... otros campos que uses
-  }[]>([]);
-
-  private _filtered = signal<any[]>([]);
+  private _countries = signal<any[]>([]);
   private _searchTerm = signal<string>('');
 
-  countries = computed(() => this._filtered().length ? this._filtered() : this._countries());
-  hasResults = computed(() => this._countries().length > 0);
+  countries = computed(() => {
+    const term = this._searchTerm().toLowerCase();
+    return term 
+      ? this._countries().filter(c => c.name.common.toLowerCase().includes(term))
+      : this._countries();
+  });
 
   constructor(private http: HttpClient) {
     this.loadCountries();
   }
 
   private loadCountries() {
-    this.http.get<any[]>('https://restcountries.com/v3.1/all').pipe(
-      tap(data => {
-        this._countries.set(data);
-        this._filtered.set(data);
-      })
-    ).subscribe();
+    this.http.get<any[]>('https://restcountries.com/v3.1/all').subscribe({
+      next: (data) => this._countries.set(data),
+      error: (err) => console.error('Error loading countries:', err)
+    });
   }
 
-  filterCountries(term: string) {
+  updateSearch(term: string) {
     this._searchTerm.set(term);
-    this._filtered.set(
-      term ? this._countries().filter(c => 
-        c.name.common.toLowerCase().includes(term.toLowerCase())
-      ) : this._countries()
-    );
+  }
+
+  getCountryById(id: string) {
+    return this._countries().find(c => c.cca3 === id);
   }
 }
