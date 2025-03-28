@@ -13,9 +13,13 @@
 
 <ion-content>
   <ion-list>
-    @if (countryService.countries().length === 0) {
+    @if (countryService.countries().length === 0 && !searchTerm) {
       <ion-item lines="none">
         <ion-label class="ion-text-center">Cargando países...</ion-label>
+      </ion-item>
+    } @else if (countryService.countries().length === 0 && searchTerm) {
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">No se encuentran coincidencias</ion-label>
       </ion-item>
     } @else {
       @for (country of countryService.countries(); track country.cca3) {
